@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <AddTodo />
+
     <Todos />
   </div>
 </template>
@@ -25,7 +26,7 @@ body {
   box-sizing: border-box;
   font-family: 'Courier New', Courier, monospace;
   line-height: 1.6;
-  background: #a691f2;
+  background: #6344a6;
 }
 
 .container {

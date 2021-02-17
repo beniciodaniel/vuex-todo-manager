@@ -1,11 +1,58 @@
-<template lang="">
+<template>
   <div>
     <h3>Add Todo</h3>
+    <div class="add">
+      <form @submit="onSubmit">
+        <input type="text" v-model="todo.title" placeholder="Add todo" />
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
   </div>
 </template>
 <script>
+import { useStore } from 'vuex';
+import { reactive } from 'vue';
+
 export default {
-  name: 'AddTodo'
+  name: 'AddTodo',
+  setup() {
+    const store = useStore();
+
+    const todo = reactive({ title: '' });
+    const addTodo = (title) => store.dispatch('addTodo', title);
+
+    const onSubmit = (event) => {
+      event.preventDefault();
+
+      addTodo(todo.title);
+    };
+
+    return {
+      addTodo,
+      todo,
+      onSubmit
+    };
+  }
 };
 </script>
-<style lang=""></style>
+
+<style scoped>
+form {
+  display: flex;
+}
+
+input[type='text'] {
+  flex: 10;
+  padding: 10px;
+  border: 1px solid #41b883;
+  outline: 0;
+}
+
+input[type='submit'] {
+  flex: 2;
+  background: #41b883;
+  color: #fff;
+  cursor: pointer;
+  border: 1px solid #41b883;
+}
+</style>
