@@ -25,6 +25,8 @@ export default {
       event.preventDefault();
 
       addTodo(todo.title);
+
+      todo.title = '';
     };
 
     return {
@@ -52,7 +54,6 @@ input[type='submit'] {
   flex: 2;
   background: #41b883;
   color: #fff;
-  cursor: pointer;
   border: 1px solid #41b883;
 }
 </style>

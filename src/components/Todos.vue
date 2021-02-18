@@ -6,7 +6,7 @@
       <h1>LOADING...</h1>
     </div>
 
-    <div class="todos">
+    <div class="todos" v-else>
       <div class="todo" v-for="todo in allTodos" :key="todo.id">
         <span>
           {{ todo.title }}
@@ -26,11 +26,11 @@ export default {
   name: 'Todos',
   setup() {
     const store = useStore();
-
     const allTodos = computed(() => store.getters.allTodos);
     const isLoading = computed(() => store.getters.isLoading);
 
     const deleteTodo = (id) => store.dispatch('deleteTodo', id);
+
     store.dispatch('fetchTodos');
 
     return {
@@ -54,15 +54,30 @@ export default {
 
 .todo {
   border: 1px solid #ccc;
-  background: #43d94d;
+  background: #d9d9d9;
   padding: 1rem;
   border-radius: 5px;
   text-align: center;
   position: relative;
-  cursor: pointer;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+span {
+  width: 250px;
+}
+
+button {
+  background: #d21729;
+  color: #fff;
+  border: 0;
+  border-radius: 5px;
+  width: 50px;
+  height: 20px;
+  cursor: pointer;
+
+  align-self: flex-end;
 }
 </style>
