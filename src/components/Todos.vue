@@ -2,12 +2,24 @@
   <div>
     <h3>Todos</h3>
 
+    <div class="legend">
+      <span>Double click to mark as complete</span>
+      <span> <span class="incomplete-box"></span> = Incomplete </span>
+      <span> <span class="complete-box"></span> = Complete </span>
+    </div>
+
     <div class="loading" v-if="isLoading">
       <h1>LOADING...</h1>
     </div>
 
     <div class="todos" v-else>
-      <div class="todo" v-for="todo in allTodos" :key="todo.id">
+      <div
+        v-for="todo in allTodos"
+        :key="todo.id"
+        @dblclick="onDoubleClick(todo)"
+        class="todo"
+        v-bind:class="{ 'is-completed': todo.completed }"
+      >
         <span>
           {{ todo.title }}
         </span>
@@ -30,13 +42,25 @@ export default {
     const isLoading = computed(() => store.getters.isLoading);
 
     const deleteTodo = (id) => store.dispatch('deleteTodo', id);
+    const updateTodo = (updatedTodo) =>
+      store.dispatch('updateTodo', updatedTodo);
+
+    const onDoubleClick = (todo) => {
+      const updatedTodo = {
+        ...todo,
+        completed: !todo.completed
+      };
+
+      updateTodo(updatedTodo);
+    };
 
     store.dispatch('fetchTodos');
 
     return {
       allTodos,
       isLoading,
-      deleteTodo
+      deleteTodo,
+      onDoubleClick
     };
   }
 };
@@ -79,5 +103,36 @@ button {
   cursor: pointer;
 
   align-self: flex-end;
+}
+
+.legend {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 1rem;
+}
+
+.complete-box {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background: #35495e;
+}
+
+.incomplete-box {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background: #d9d9d9;
+}
+
+.is-completed {
+  background: #35495e;
+  color: #fff;
+}
+
+@media (max-width: 500px) {
+  .todos {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
